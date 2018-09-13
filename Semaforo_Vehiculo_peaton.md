@@ -1,15 +1,22 @@
-//# P1_Semaforo
-/*Circuito programado desde microcontralador Arduino. Posee botones para dar paso peatonal, mientras no se oprima el boton, el semaforo de vehiculos continua en verde para un mejor flujo vehicular.*/
 #define led_verde 13
 #define led_amarillo 12
 #define led_rojo 11
 
+#define verde1 10
+#define rojo1 9
+#define verde2 8 
+#define rojo2 7
 
 void setup() {
   // put your setup code here, to run once:
   pinMode(led_verde,OUTPUT);
   pinMode(led_amarillo, OUTPUT);
   pinMode(led_rojo,OUTPUT);
+
+  pinMode(verde1, OUTPUT);
+  pinMode(rojo1, OUTPUT);
+  pinMode(verde2, OUTPUT);
+  pinMode(rojo2, OUTPUT);
  
 }
 
@@ -25,6 +32,8 @@ Serial.println(valor_pote);
  
 /* S E M A F O R O */
 void verde (){
+  digitalWrite(rojo1,HIGH); //alto peaton//----
+  digitalWrite(rojo2,HIGH);
   
   //verde
   digitalWrite(led_verde,HIGH);   //alto
@@ -33,6 +42,8 @@ void verde (){
 }
 
 void preventivaVerde (){
+  digitalWrite(rojo1,HIGH); //alto peaton
+  digitalWrite(rojo2,HIGH);//-------
   
     //verde
   digitalWrite(led_verde,HIGH);   //alto
@@ -60,12 +71,40 @@ void amarillo (){
 }
 
 void rojo (){
+  
   //rojo sem
   digitalWrite(led_rojo, HIGH); //alto vehiculo
   delay(3000);
 
-    
-  digitalWrite(led_rojo,LOW); //bajo
+  digitalWrite(rojo1,LOW);  //peaton
+  digitalWrite(rojo2,LOW); //peaton
 
+    
+//paso peaton
+  digitalWrite(verde1,HIGH);
+  digitalWrite(verde2,HIGH);
+  
+  delay(15000); //tiempo original verde peatonal 15000---------------------
+  delay(17000); // tiempo original rojo semaforo 17000--------------------
+  
+  //parpadear 
+for(int i = 0; i<3; i++){
+  digitalWrite(verde1,HIGH);  //paso peatonal
+  digitalWrite(verde2,HIGH); 
+  delay (500);
+
+  digitalWrite(verde1,LOW);  //paso peatonal--
+  digitalWrite(verde2,LOW); //----
+  delay(500);
 }
 
+  digitalWrite(rojo1,HIGH); //peaton tiempo espera -> vehiculo y peaton en rojo
+  digitalWrite(rojo2,HIGH);// peaton
+
+    delay(3000);  // ambos en rojo po seguridad  
+  digitalWrite(led_rojo,LOW); //bajo
+
+    
+  digitalWrite(verde1,LOW); //peaton---------
+  digitalWrite(verde2,LOW);//-------
+}
